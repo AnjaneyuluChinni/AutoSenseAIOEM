@@ -23,65 +23,11 @@ def get_db_connection():
 
 def init_database():
     with get_db_connection() as conn:
-        cursor = conn.cursor()# Add these tables to init_database() function in database.py
-
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS garages (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                latitude REAL NOT NULL,
-                longitude REAL NOT NULL,
-                address TEXT NOT NULL,
-                phone TEXT,
-                rating REAL DEFAULT 3.0,
-                specialization TEXT,
-                estimated_response_time INTEGER DEFAULT 30,
-                capacity INTEGER DEFAULT 5,
-                current_load INTEGER DEFAULT 0,
-                operating_hours TEXT DEFAULT '24/7',
-                created_at TEXT DEFAULT CURRENT_TIMESTAMP
-            )
-        ''')
-
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS parts_catalog (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                part_number TEXT UNIQUE NOT NULL,
-                part_name TEXT NOT NULL,
-                category TEXT NOT NULL,
-                make TEXT,
-                model TEXT,
-                year_from INTEGER,
-                year_to INTEGER,
-                oem_price REAL NOT NULL,
-                aftermarket_price REAL,
-                stock_quantity INTEGER DEFAULT 0,
-                lead_time_days INTEGER DEFAULT 3,
-                created_at TEXT DEFAULT CURRENT_TIMESTAMP
-            )
-        ''')
-
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS breakdown_incidents (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                vehicle_id INTEGER NOT NULL,
-                garage_id INTEGER,
-                breakdown_type TEXT NOT NULL,
-                breakdown_location_lat REAL,
-                breakdown_location_lng REAL,
-                reported_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                estimated_fix_time INTEGER,
-                actual_fix_time INTEGER,
-                status TEXT DEFAULT 'reported',
-                parts_used TEXT,
-                total_cost REAL,
-                FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
-                FOREIGN KEY (garage_id) REFERENCES garages(id)
-            )
-        ''')
-
-        # In the init_database() function in database.py, update the breakdown_incidents table creation
+        cursor = conn.cursor()
         
+        # Create tables in proper order (vehicles first since others reference it)
+        
+        # VEHICLES FIRST (referenced by others)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS vehicles (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -100,6 +46,67 @@ def init_database():
             )
         ''')
         
+        # GARAGES
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS garages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                latitude REAL NOT NULL,
+                longitude REAL NOT NULL,
+                address TEXT NOT NULL,
+                phone TEXT,
+                rating REAL DEFAULT 3.0,
+                specialization TEXT,
+                estimated_response_time INTEGER DEFAULT 30,
+                capacity INTEGER DEFAULT 5,
+                current_load INTEGER DEFAULT 0,
+                operating_hours TEXT DEFAULT '24/7',
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        
+        # PARTS CATALOG
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS parts_catalog (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                part_number TEXT UNIQUE NOT NULL,
+                part_name TEXT NOT NULL,
+                category TEXT NOT NULL,
+                make TEXT,
+                model TEXT,
+                year_from INTEGER,
+                year_to INTEGER,
+                oem_price REAL NOT NULL,
+                aftermarket_price REAL,
+                stock_quantity INTEGER DEFAULT 0,
+                lead_time_days INTEGER DEFAULT 3,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        
+        # BREAKDOWN INCIDENTS (references vehicles and garages)
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS breakdown_incidents (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                vehicle_id INTEGER NOT NULL,
+                garage_id INTEGER,
+                breakdown_type TEXT NOT NULL,
+                breakdown_location_lat REAL,
+                breakdown_location_lng REAL,
+                reported_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                estimated_fix_time INTEGER,
+                actual_fix_time INTEGER,
+                status TEXT DEFAULT 'reported',
+                parts_used TEXT,
+                total_cost REAL,
+                technician_notes TEXT,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
+                FOREIGN KEY (garage_id) REFERENCES garages(id)
+            )
+        ''')
+        
+        # TELEMETRY DATA (references vehicles)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS telemetry_data (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -123,6 +130,7 @@ def init_database():
             )
         ''')
         
+        # ALERTS (references vehicles)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS alerts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -140,6 +148,7 @@ def init_database():
             )
         ''')
         
+        # SERVICE CENTERS
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS service_centers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -154,6 +163,7 @@ def init_database():
             )
         ''')
         
+        # BOOKINGS (references vehicles, service_centers, alerts)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS bookings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -176,6 +186,7 @@ def init_database():
             )
         ''')
         
+        # FEEDBACK (references bookings, vehicles)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS feedback (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -194,6 +205,7 @@ def init_database():
             )
         ''')
         
+        # AGENT LOGS
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS agent_logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -208,6 +220,7 @@ def init_database():
             )
         ''')
         
+        # RCA REPORTS
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS rca_reports (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -222,8 +235,38 @@ def init_database():
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )           
         ''')
-    
-
+        
+        # TECHNICIANS (references garages)
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS technicians (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                garage_id INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                specialization TEXT,
+                contact TEXT NOT NULL,
+                experience_years INTEGER DEFAULT 0,
+                status TEXT DEFAULT 'available',
+                current_incident_id INTEGER,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (garage_id) REFERENCES garages(id),
+                FOREIGN KEY (current_incident_id) REFERENCES breakdown_incidents(id)
+            )
+        ''')
+        
+        # PARTS USAGE (references breakdown_incidents)
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS parts_usage (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                incident_id INTEGER NOT NULL,
+                part_number TEXT NOT NULL,
+                part_name TEXT NOT NULL,
+                quantity INTEGER DEFAULT 1,
+                unit_price REAL NOT NULL,
+                total_price REAL GENERATED ALWAYS AS (quantity * unit_price) VIRTUAL,
+                used_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (incident_id) REFERENCES breakdown_incidents(id)
+            )
+        ''')
         
         conn.commit()
 
