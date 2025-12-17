@@ -4,11 +4,17 @@ from datetime import datetime, timedelta
 import random
 from contextlib import contextmanager
 
-DATABASE_PATH = "autosenseai.db"
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_PATH = os.path.join(BASE_DIR, "autosenseai.db")
 
 @contextmanager
 def get_db_connection():
-    conn = sqlite3.connect(DATABASE_PATH)
+    conn = sqlite3.connect(
+    DATABASE_PATH,
+    check_same_thread=False
+)
     conn.row_factory = sqlite3.Row
     try:
         yield conn
