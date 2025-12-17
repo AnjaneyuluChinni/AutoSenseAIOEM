@@ -1,0 +1,28 @@
+# Core Streamlit
+streamlit==1.28.0
+watchdog==6.0.0
+
+# Data handling
+pandas==2.0.3
+numpy==1.24.3
+python-dateutil==2.8.2
+
+# Visualization
+plotly==5.17.0
+
+# Machine Learning
+scikit-learn==1.3.0
+scipy==1.11.0
+joblib==1.3.0
+
+# Web / API (used indirectly)
+flask==2.3.0
+python-multipart==0.0.6
+
+# File formats / exports
+openpyxl==3.1.2
+xlsxwriter==3.1.0
+pyarrow==13.0.0
+
+# Reports / PDFs
+reportlab==4.0.0
