@@ -1,0 +1,225 @@
+Perfect — I’ve gone through **both the EY Techathon 6.0 guidelines** and **your AutoSenseAI solution deck**. Below is a **single, powerful MASTER PROMPT** you can directly paste into **Replit AI** to **build the complete solution from scratch**, exactly aligned with **EY Technonakon / Techathon 6.0 evaluation & PPT requirements**.
+
+I’ve designed this so that:
+
+* The output is **demo-ready**
+* Matches **EY slides 4–8 expectations**
+* Produces a **working prototype** you can screen-share
+* Is realistic for a **hackathon timeline**
+
+---
+
+## 🔥 MASTER PROMPT FOR REPLIT AI (COPY–PASTE)
+
+---
+
+### 🧠 Project Context
+
+You are building a **production-grade, demo-ready Agentic AI system** named **AutoSenseAI** for **EY Techathon 6.0**.
+The solution is for the **automotive industry (B2B + B2C)** and focuses on **autonomous predictive maintenance, smart service scheduling, and closed-loop feedback to OEM manufacturing teams**.
+
+The solution must strictly follow **EY Techathon 6.0 submission guidelines**, including:
+
+* Clear problem–solution mapping
+* Architecture & flow diagrams
+* Working prototype (MANDATORY)
+* Demonstrable UI + backend logic
+* Scalable, secure, and innovative design
+
+---
+
+## 🎯 Problem Statement
+
+Vehicle maintenance today is **reactive, fragmented, and inefficient**, leading to:
+
+* Unexpected breakdowns
+* Poor service center utilization
+* Low customer satisfaction
+* No structured RCA/CAPA feedback to OEM manufacturing teams
+
+There is a need for an **autonomous, intelligent system** that:
+
+* Predicts failures early using telematics data
+* Proactively schedules service
+* Communicates with customers via AI agents
+* Creates a continuous quality improvement loop for OEMs
+
+---
+
+## 🚀 Solution Vision (What You Must Build)
+
+Build **AutoSenseAI**, an **Agentic AI-based predictive maintenance platform** with:
+
+### Core Capabilities
+
+1. **Predictive Failure Detection**
+
+   * Use simulated vehicle telemetry data
+   * ML-based anomaly detection & failure prediction
+2. **Agentic AI Orchestration**
+
+   * Master Agent coordinating Worker Agents:
+
+     * Prediction Agent
+     * Diagnosis Agent
+     * Scheduling Agent
+     * Customer Voice/Chat Agent
+     * RCA Feedback Agent
+3. **Smart Service Scheduling**
+
+   * Auto-book service slots based on urgency & availability
+4. **Customer Interaction**
+
+   * Chatbot / Voice-bot (text-based simulation is acceptable)
+5. **OEM Dashboard**
+
+   * Analytics, alerts, RCA insights
+6. **Closed Feedback Loop**
+
+   * Service outcomes → manufacturing insights
+
+---
+
+## 🧱 Technical Requirements (MANDATORY)
+
+Build the project with the following stack (can simulate where needed):
+
+### Backend
+
+* **Python + FastAPI**
+* REST APIs for predictions, scheduling, feedback
+* Modular agent-based architecture
+
+### ML / AI
+
+* Scikit-learn (RandomForest / IsolationForest)
+* Rule-based fallback logic
+* Simulated real-time telemetry input
+
+### Frontend
+
+* **React OR Streamlit**
+* Clean dashboard for:
+
+  * OEM view
+  * Service center view
+  * Vehicle owner view
+
+### Database
+
+* SQLite / PostgreSQL
+* Tables for vehicles, alerts, bookings, feedback
+
+### Deployment
+
+* Fully runnable on **Replit**
+* Clear `README.md` with run steps
+
+---
+
+## 📊 Functional Modules to Implement
+
+### 1️⃣ Telemetry Simulator
+
+* Generate vehicle sensor data (temperature, vibration, RPM, error codes)
+
+### 2️⃣ Predictive Engine
+
+* Detect anomalies
+* Predict failure probability
+* Threshold-based alert triggering
+
+### 3️⃣ Agent Orchestration Layer
+
+* Master Agent routes tasks
+* Worker Agents act independently
+* Logs agent decisions
+
+### 4️⃣ Smart Scheduler
+
+* Auto-assign service center & slot
+* Priority-based scheduling logic
+
+### 5️⃣ Customer Interface
+
+* Alert notification
+* Booking confirmation
+* Feedback collection
+
+### 6️⃣ OEM Analytics Dashboard
+
+* Failure trends
+* RCA summaries
+* Heatmaps / charts
+
+---
+
+## 🔐 Non-Functional Requirements
+
+* Modular & scalable
+* Secure API design
+* Easily extensible
+* Hackathon-demo friendly
+* Clear separation of concerns
+
+---
+
+## 📐 Mandatory EY Deliverables (Must Generate)
+
+You must automatically generate:
+
+1. **System Architecture Diagram (textual + Mermaid if possible)**
+2. **End-to-End Flow Chart**
+3. **Wireframe Screens (basic UI layouts)**
+4. **Demo Dataset**
+5. **Screenshots / UI views**
+6. **Working prototype**
+
+---
+
+## 📁 Output Expectations
+
+* Complete runnable code
+* Clear folder structure
+* README with demo instructions
+* Sample API calls
+* Mock data included
+* Comments explaining agent decisions
+
+---
+
+## 🏁 Final Instruction
+
+Build this project **as if it will be evaluated by EY judges** on:
+
+* Innovation
+* Technology depth
+* Business impact
+* Demonstrability
+
+Start by:
+
+1. Creating project structure
+2. Building backend APIs
+3. Adding ML logic
+4. Implementing frontend
+5. Connecting everything end-to-end
+
+---
+
+### 🚨 IMPORTANT
+
+Do **not** skip the working prototype.
+Everything must be **demo-ready** and **screen-shareable**.
+
+---
+
+If you want, next I can:
+
+* ✅ Convert this into **slide-wise PPT content (Slide 3–8)**
+* ✅ Generate **architecture & flow diagrams**
+* ✅ Create **Replit-ready repo structure**
+* ✅ Write **EY-style executive summary (200+ words)**
+* ✅ Prepare **demo narration script (2–3 min)**
+
+Just tell me what you want next 🔥
