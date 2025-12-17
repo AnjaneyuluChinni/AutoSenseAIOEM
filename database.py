@@ -80,28 +80,7 @@ def init_database():
             )
         ''')
 
-        # In the init_database() function in database.py, update the breakdown_incidents table creation:
-        
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS breakdown_incidents (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                vehicle_id INTEGER NOT NULL,
-                garage_id INTEGER,
-                breakdown_type TEXT NOT NULL,
-                breakdown_location_lat REAL,
-                breakdown_location_lng REAL,
-                reported_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                estimated_fix_time INTEGER,
-                actual_fix_time INTEGER,
-                status TEXT DEFAULT 'reported',
-                parts_used TEXT,
-                total_cost REAL,
-                technician_notes TEXT,  -- ADD THIS LINE
-                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,  -- ADD THIS LINE
-                FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
-                FOREIGN KEY (garage_id) REFERENCES garages(id)
-            )
-        ''')
+        # In the init_database() function in database.py, update the breakdown_incidents table creation
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS vehicles (
